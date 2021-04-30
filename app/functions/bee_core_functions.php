@@ -1,0 +1,1 @@
+<!-- Este archivo va a tener las funciones que son estrictamente requeridad para que funcione el framework -->
