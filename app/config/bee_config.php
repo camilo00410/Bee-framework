@@ -27,7 +27,7 @@ define('APP'        , ROOT.'app'.DS);
 define('CLASSES'    , APP.'classes'.DS);
 define('CONFIG'     , APP.'config'.DS);
 define('CONTROLLERS', APP.'controllers'.DS);
-define('FUNCTION'   , APP.'functions'.DS);
+define('FUNCTIONS'   , APP.'functions'.DS);
 define('MODELS'     , APP.'models'.DS);
 
 define('TEMPLATES'  , ROOT.'templates'.DS);
@@ -35,6 +35,7 @@ define('INCLUDES'   , TEMPLATES.'includes'.DS);
 define('MODULES'    , TEMPLATES.'modules'.DS);
 define('VIEWS'      , TEMPLATES.'views'.DS);
 
+// Rutas de archivos o assets con base URL
 define('ASSETS'     , URL.'assets/');
 define('CSS'        , ASSETS.'css/');
 define('FAVICON'    , ASSETS.'favicon/');
@@ -44,3 +45,23 @@ define('JS'         , ASSETS.'js/');
 define('PLUGINS'    , ASSETS.'plugins/');
 define('UPLOADS'    , ASSETS.'uploads/');
 
+
+/*
+ CREDENCIALES DE LA BASE DE DATOS
+*/
+
+// Set para conexion local o de desarrollo
+define('LDB_ENGINE' ,'mysql');
+define('LDB_HOST'   ,'localhost');
+define('LDB_NAME'   ,'u4_p1_db');
+define('LDB_USER'   ,'root');
+define('LDB_PASS'   ,'');
+define('LDB_CHARSET','utf8');
+
+// Set para conexion en produccion o servidor real
+// define('LDB_ENGINE' ,'mysql');
+// define('LDB_HOST'   ,'localhost');
+// define('LDB_NAME'   ,'___REMOTE DB___');
+// define('LDB_USER'   ,'___REMOTE DB___');
+// define('LDB_PASS'   ,'___REMOTE DB___');
+// define('LDB_CHARSET','___REMOTE CHARSET___');
