@@ -35,7 +35,7 @@ class Bee {
      * @return void
      */
     private function init_session(){
-        if(!session_start()){
+        if(session_status() == PHP_SESSION_NONE){
             session_start();
         }
         return;
@@ -98,7 +98,7 @@ class Bee {
         require_once CLASSES.'Controller.php';
         require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
         require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
-        require_once CONTROLLERS.'usersController.php';
+        
 
         return;
     }
@@ -171,6 +171,12 @@ class Bee {
             $current_method = DEFAULT_METHOD; //index
         }
 
+        //////////////////////////////////////////////////////////////////////////////////
+        // Creando constantes para utilizar mas adelante
+        define('CONTROLLER', $current_controller);
+        define('METHOD'   , $current_method);
+
+
 
         //////////////////////////////////////////////////////////////////////////////////
         //Ejecutando controlador y metodo segun se haga la peticion
@@ -192,5 +198,14 @@ class Bee {
         // echo '<br>';
         // print_r($params);
         // echo $current_method;
+    }
+
+    /**
+     * Correr nuestro framework
+     * 
+     * @return void
+     */
+    public static function fly(){
+        $Bee = new self();
     }
 }

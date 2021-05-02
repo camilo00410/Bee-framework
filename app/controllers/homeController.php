@@ -3,6 +3,11 @@
 class homeController {
     function __construct()
         {
-            echo 'Ejecutando: '.__CLASS__;
+         
         }    
+
+    function index(){
+        echo '<br>'.CONTROLLER.'<br>';
+        echo METHOD;
+    }
 }

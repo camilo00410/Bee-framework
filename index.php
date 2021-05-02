@@ -7,5 +7,7 @@
 // Requerir el archivode la clase Bee.php
 require_once 'app/classes/Bee.php';
 
-$bee = new Bee;
+//$bee = new Bee;
 
+// Ejecutar el framework Bee
+Bee::fly();
