@@ -10,7 +10,7 @@ class Bee {
     // La funcion principal que se ejecuta al instanciar nuestra clase
     function __construct()
     {
-        echo 'Ejecutando el constructor';
+        // echo 'Ejecutando el constructor';
         $this->init();
     }
 
@@ -25,6 +25,7 @@ class Bee {
         $this->init_load_config();
         $this->init_load_function();
         $this->init_autoload();
+        $this->dispatch();
     }
 
 
@@ -95,8 +96,101 @@ class Bee {
         require_once CLASSES.'Db.php';
         require_once CLASSES.'Model.php';
         require_once CLASSES.'Controller.php';
+        require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
+        require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
+        require_once CONTROLLERS.'usersController.php';
 
         return;
     }
 
+    /**
+     *  Metodo para filtrar y descomponer los elementos de nuestra url y uri
+     * 
+     * @return void
+     */
+    private function filter_url(){
+        if(isset($_GET['uri'])){
+            $this->uri = $_GET['uri'];
+            $this->uri = rtrim($this->uri, '/'); //Que no vea los "/"
+            $this->uri = filter_var($this->uri, FILTER_SANITIZE_URL); //Limpiar la url
+            $this->uri = explode('/', strtolower($this->uri)); //Explora hasta que vea "/" y coloca las letras en minuscula
+            return $this->uri;
+        }
+    }
+
+    /**
+     * Metodo para ejecutar y cargar de forma automatica el controlador solicitado por el usuario
+     * su metodo y pasar parametro a el
+     * 
+     * @return void
+     */
+    private function dispatch(){  //Se ejecuta TODO
+        
+        // Filtrar la URL y separar la URI
+        $this->filter_url();
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+        // Necesitamos saber si se esta pasando el nombre de un controlador en nuestra URI
+        // $this->uri[0] es el controlador en cuestion
+
+        if(isset($this->uri[0])){
+            $current_controller = $this->uri[0]; //Usuarios Controller.php
+            unset($this->uri[0]);
+           
+        }else{
+            $current_controller = DEFAULT_CONTROLLER; //home Controller.php
+        }
+
+        
+        // Ejecucion del controlador
+        // Verificamos si existe una clase con el controlador solicitado 
+        $controller = $current_controller.'Controller'; //homeController
+        
+        if(!class_exists($controller)){
+            $controller = DEFAULT_ERROR_CONTROLLER.'Controller'; //errorController
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////
+        // Ejecucion del metodo solicitado
+        if(isset($this->uri[1])){
+            $method  = str_replace('-', '_', $this->uri[1]); //Si encuentra un "-" que lo cambie por un "_"
+
+            // Existe o no el metodo dentro de la clase a ejecutar (controllador)
+            if(!method_exists($controller, $method)){
+                $controller = DEFAULT_ERROR_CONTROLLER.'Controller'; //HomeController
+                $current_method = DEFAULT_METHOD; //index
+                echo "No existe el metodo ".$method;
+            }else{
+                $current_method = $method;       
+                echo "Si existe el metodo ".$current_method;
+            }
+            unset($this->uri[1]);
+            
+        }else{
+            $current_method = DEFAULT_METHOD; //index
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+        //Ejecutando controlador y metodo segun se haga la peticion
+        $controller = new $controller;
+
+        // Obteniendo los parametros del URI
+        $params = array_values(empty($this->uri) ? [] : $this->uri); //Si no esta vacio que lo haga
+
+        // Llamada al metodo que solicita el usuario en curso
+        if(empty($params)){ //Si no hay parametro(vacio)
+            call_user_func([$controller, $current_method]);
+        }else{
+            call_user_func_array([$controller, $current_method], $params);
+        }
+
+        return; //Linea final y todo sucede entre esta linea y el comienzo
+
+        // print_r($this->uri);
+        // echo '<br>';
+        // print_r($params);
+        // echo $current_method;
+    }
 }

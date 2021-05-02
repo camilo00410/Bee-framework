@@ -65,3 +65,9 @@ define('LDB_CHARSET','utf8');
 // define('LDB_USER'   ,'___REMOTE DB___');
 // define('LDB_PASS'   ,'___REMOTE DB___');
 // define('LDB_CHARSET','___REMOTE CHARSET___');
+
+
+// El controlador por defecto / El metodo por defecto / El controlador de errores por defecto
+define('DEFAULT_CONTROLLER'      , 'home');
+define('DEFAULT_ERROR_CONTROLLER', 'error');
+define('DEFAULT_METHOD'          , 'index');

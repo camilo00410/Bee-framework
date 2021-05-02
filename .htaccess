@@ -1,0 +1,12 @@
+
+<IfModule mod_rewrite.c>
+    # Activa mod_rewrite
+    RewriteEngine On
+
+    #que no saque nada si es directorio o  si es un archivo
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+    #Reescribir la ruta
+    RewriteRule ^(.+)$ index.php?uri=$1 [QSA,L]
+</IfModule>
