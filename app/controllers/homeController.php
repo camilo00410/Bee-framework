@@ -9,5 +9,14 @@ class homeController {
     function index(){
         echo '<br>'.CONTROLLER.'<br>';
         echo METHOD;
+
+        $data =
+        [
+            'title' => 'Bee Framework',
+        ];
+
+       
+        View::render('bee', $data);
+
     }
 }
